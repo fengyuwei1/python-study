@@ -4,9 +4,9 @@
 
 ### 1.1使用对象组织数据
 
-![image-20240528144345317](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528144345317.png)
+面向对象编程是一种通过对象的方式组织代码的编程范式。Python 是一种面向对象的编程语言，OOP 主要涉及类和对象的概念。
 
-示例：
+类是创建对象的蓝图。类可以包含属性（数据）和方法（行为）。以下是定义一个简单类的例子：
 
 ```python
 class student:
@@ -20,15 +20,30 @@ print(stu1.name)
 
 ### 1.2.1类的定义和使用
 
-![image-20240528145400700](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528145400700.png)
+在 Python 中，使用 `class` 关键字定义类。类名通常采用首字母大写的方式。
 
-![image-20240528150041561](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528150041561.png)
+```py
+class MyClass:
+    # 定义属性
+    def __init__(self, attribute1, attribute2):
+        self.attribute1 = attribute1
+        self.attribute2 = attribute2
+    
+    # 定义方法
+    def display_attributes(self):
+        print(f"Attribute 1: {self.attribute1}, Attribute 2: {self.attribute2}")
+```
+
+**解释：**
+
+- `__init__` 方法是类的构造函数，在创建类的实例时自动调用，用于初始化实例的属性。
+- `self` 是类实例的引用，用于访问实例的属性和方法。
 
 ### 1.2.2成员方法的定义语法
 
-![image-20240528150309029](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528150309029.png)
+在 Python 中，成员方法（即类方法）的定义语法与普通函数类似，但在类的内部定义，并且第一个参数通常是 `self`，用于引用类的实例。下面是成员方法的定义语法及说明。
 
-![image-20240528150423461](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528150423461.png)
+Python 中的类成员方法主要有三种：实例方法、类方法和静态方法。
 
 示例：
 
@@ -48,7 +63,9 @@ stu1.say_hello()
 
 ## 1.3类和对象
 
-![image-20240528153651490](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528153651490.png)
+**类**是一个用于定义对象的模板或蓝图。它封装了对象的属性（数据）和行为（方法）。在 Python 中，使用 `class` 关键字定义类。类通常包含构造方法 `__init__` 和其他成员方法，用于定义该类的行为。
+
+**对象**是类的实例。每个对象都包含特定于该实例的数据，并可以调用类中定义的方法。在创建对象时，Python 会自动调用类的构造方法 `__init__` 进行初始化。
 
 示例：
 
@@ -192,11 +209,46 @@ print(person.get_age())   # 输出: 25
 
 ## 1.4构造方法
 
-![image-20240528154051641](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528154051641.png)
+**构造方法**（Constructor）是类的一种特殊方法，在创建类的对象时自动调用，用于初始化对象的属性。Python 中的构造方法使用 `__init__` 进行定义。
 
 构造方法注意事项
 
-![image-20240528155000450](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528155000450.png)
+**1. `self` 参数**
+
+- **`self` 必须是第一个参数**：构造方法的第一个参数必须是 `self`，这是类的实例对象的引用，使得对象可以访问它的属性和方法。
+- `self` 不是关键字，可以用其他名称替换，但不建议这样做，因为 `self` 是通用约定，便于代码的可读性和理解。
+
+**2. 不要返回任何值**
+
+- 构造方法 **不能显式返回任何值**，例如 `return something`，即使是 `return None` 也不能写。Python 的构造方法隐式返回新创建的对象。
+- 任何带 `return` 的构造方法会导致运行时错误。
+
+**3. 避免在构造方法中定义类属性**
+
+- **区分类属性和实例属性**：构造方法中定义的属性应是实例属性（特定对象独有的属性），而不是类属性。
+- 使用 `self.attribute` 来定义实例属性，而类属性应在类外定义，避免所有实例共享属性的情况。
+
+**4. 使用默认参数**
+
+- **构造方法的参数可以有默认值**，这样可以在实例化对象时省略某些参数，增加代码的灵活性。
+
+**5. 避免在构造方法中定义复杂的逻辑**
+
+- 构造方法应只做对象的初始化，避免过于复杂的逻辑，以提高代码的可读性。
+- 如果需要复杂的初始化过程，考虑将其分解到类中的其他方法。
+
+**6. `__init__` 的重载**
+
+- Python 不支持传统的构造方法重载，即同一个类中不能定义多个 `__init__` 方法。但可以通过设置参数的默认值、使用可变参数 `*args` 和 `**kwargs` 来实现类似重载的效果。
+
+**7. 避免循环调用**
+
+- 如果使用了继承，确保子类的构造方法正确调用父类的构造方法，避免引起无限递归的错误。
+- 使用 `super()` 函数来调用父类的 `__init__` 方法，而不是直接调用类名（可能引发混乱）。
+
+**8. 避免在 `__init__` 中使用未定义的外部变量**
+
+- 确保在构造方法中使用的所有变量都是方法参数、局部变量、或类属性，避免依赖外部未定义的变量，增加代码的稳健性。
 
 ```python
 class Person:
@@ -328,11 +380,11 @@ print(f"Addition (via instance): {result_add_instance}")  # 输出: Addition (vi
 
 ### 1.魔术方法
 
-![image-20240528192637157](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528192637157.png)
+**魔术方法**（Magic Methods）是 Python 中内置的特殊方法，用于实现对象的特殊行为，比如运算符重载、对象打印格式等。这些方法通常以双下划线开头和结尾（例如 `__init__`、`__str__`），也被称为“dunder（double underscore）”方法。
 
 ### 2.`__str__字符串方法`
 
-![image-20240528193208993](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528193208993.png)
+`__str__()`方法可以改变对象的字符串显示。在打印某个对象的时候，会调用这个对象的`__str__`方法，打印这个方法的返回值。
 
 示例：
 
@@ -351,7 +403,7 @@ print(str(stu))
 
 ### 3.`__lt__小于符号的比较`
 
-![image-20240528193758111](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528193758111.png)
+`__lt__` 是 Python 中用于支持小于符号 `<` 比较的魔术方法。这个方法允许我们定义自定义类的实例在使用 `<` 比较时的行为，例如比较实例属性的大小。`__lt__` 方法接受两个参数：`self`（当前对象）和 `other`（用于比较的对象），并返回一个布尔值，表示 `self < other` 是否为真。
 
 示例：
 
@@ -369,11 +421,22 @@ print(stu1<stu2)
 
 ### 4.`__le__小于等于比较符方法`
 
-![image-20240528194118401](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528194118401.png)
+`__le__` 是 Python 中的魔术方法，用于定义自定义类在使用小于等于符号 `<=` 时的行为。它的全称是 “less than or equal to”，即“小于等于”。这个方法允许我们在类中定义自定义对象实例的“小于等于”比较规则。
+
+示例：
+
+```py
+def __le__(self, other):
+    # 返回 True 或 False
+```
 
 ### 5.`__eq__比较运算符`
 
-![image-20240528194339720](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528194339720.png)
+说到__eq__()魔法方法，就必须提到Python中的is和==。先来看看这两者的区别：
+
+is 比较两个对象的 id 值是否相等，是否指向同一个内存地址；
+== 比较的是两个对象的内容是否相等，即内存地址可以不一样，内容一样就可以了。
+==在比较类时，会默认调用object.__eq__方法，默认比较两个对象的地址（id）。
 
 示例：
 
@@ -391,13 +454,17 @@ print(st1 == st2)
 
 ##  1.6封装
 
-![image-20240528195032908](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528195032908.png)
+在面向对象编程中，**封装**是一种重要的思想。封装的核心是将对象的状态（属性）和行为（方法）封装在一起，通过隐藏内部细节、限制直接访问，实现数据保护和模块化，方便用户操作。
 
- 
+### 1.封装的核心概念
 
-### 1.私有成员
+1. **隐藏内部数据**：将类的内部数据设为私有，以防止外部代码直接修改，从而保护数据的完整性。
+2. **通过方法访问数据**：提供公有（public）的方法来获取或设置内部数据，使得类内部实现细节可以灵活改变，而不会影响外部代码。
+3. **模块化设计**：封装有助于将代码模块化，方便管理和维护，同时提高了代码的可读性和可扩展性。
 
-![image-20240528195408192](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528195408192.png)
+### 2.私有成员
+
+在 Python 中，我们通过前缀下划线 `_` 或双下划线 `__` 来设置私有属性或方法。
 
 示例：
 
@@ -414,17 +481,19 @@ print(phone.__current_voltage)
 
 私有成员无法被类对象使用，但是可以被其他成员使用
 
-示例：
-
-![image-20240528200318845](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528200318845.png)
-
 私有成员的实际意义：
 
 在类中提供仅供内部使用的属性和方法，而不对外开放(类对象无法使用)
 
 ## 1.7继承
 
-![image-20240528201736367](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528201736367.png)
+**继承**是面向对象编程中的一个核心特性，允许一个类（子类）从另一个类（父类或基类）获取属性和方法。继承的主要目的是重用代码，提高代码的可读性和可维护性，并使得程序结构更加清晰。
+
+**继承的基本概念**
+
+1. **父类（基类）**：提供属性和方法的类。
+2. **子类（派生类）**：从父类继承属性和方法的类。
+3. **继承关系**：子类可以访问和使用父类的公有（public）和保护（protected）成员，但不能直接访问私有（private）成员。
 
 ### 1.7.1单继承
 
@@ -445,13 +514,8 @@ print(phone2022.IMEI)
 
 ### 1.7.2多继承
 
-![image-20240528202419566](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528202419566.png)
-
-多继承的注意事项：
-
-![image-20240528202748207](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528202748207.png)
-
-![image-20240528202809654](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528202809654.png)
+- 单继承指的是一个类只继承一个父类。子类可以重用父类的属性和方法。
+- 多继承指的是一个类可以继承多个父类，从而获得所有父类的属性和方法。这在某些情况下非常有用，但也可能导致复杂性增加，比如遇到方法解析顺序（MRO）问题。
 
 同名属性和方法，谁先来谁优先级高
 
@@ -459,7 +523,10 @@ print(phone2022.IMEI)
 
 #### 1.复写
 
-![image-20240528203239195](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528203239195.png)
+在Python中，子类可以重写父类的同名方法和属性。这意味着子类可以提供自己的实现来覆盖父类中的方法和属性。这样可以使得子类具有独特的行为，同时保留与父类的接口一致性。
+
+重写方法：当子类重写父类的方法时，子类的方法会覆盖父类的方法。在调用该方法时，将执行子类的实现。
+重写属性：当子类重写父类的属性时，子类中的属性将覆盖父类中的同名属性
 
 ```py
 class phone:
@@ -478,7 +545,7 @@ class myphone(phone):
 
 #### 2.调用父类的同名成员
 
-![image-20240528203822228](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528203822228.png)
+在 Python 中，可以使用 `super()` 函数来调用父类的同名方法，也可以直接使用父类名称调用其方法或属性。
 
 ```py
 class phone:
@@ -497,55 +564,106 @@ my_phone.call_by_4g()
 print(phone.producer)
 ```
 
-## 1.8类型注解
-
-### 1.8.1变量的类型注解
-
-![image-20240528210345865](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528210345865.png)
-
-类型注解的语法：
-
-![image-20240528211057038](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528211057038.png)
-
- ![image-20240528211746528](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528211746528.png)
-
-只是对程序的标记，即使标记错误也没有问题
-
-### 1.8.2函数的类型注解
-
-#### 1.形参注解
-
-![image-20240528223842966](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528223842966.png)
-
-![image-20240528223949441](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528223949441.png)
-
-#### 2.返回值注解
-
-![image-20240528224104039](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528224104039.png)
-
-也是提示性的，不是决定性的
-
-### 1.8.3Union
-
-#### 1.Union类型
-
-![image-20240528225132286](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528225132286.png)
-
-![image-20240528232021965](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528232021965.png)
-
 ## 1.9多态
 
 ### 1.9.1多态
 
-![image-20240528232635162](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528232635162.png)
+在 Python 中，多态是一种对象在多种情境下表现不同形式的能力，它允许不同类的对象使用相同的接口。Python 的多态特性体现在动态类型和方法重写等方面。以下是 Python 中实现多态的主要方式。
 
-![image-20240528234345437](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528234345437.png)
+#### 1. 方法重写与动态类型
 
-![image-20240528234607179](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528234607179.png)
+在 Python 中，不需要显式声明类型，因此多态可以自然地通过继承和方法重写来实现。子类可以继承父类并重写父类的方法，而使用该父类的对象可以调用不同的子类方法。
+
+```py
+class Animal:
+    def sound(self):
+        return "Some generic sound"
+
+class Dog(Animal):
+    def sound(self):
+        return "Woof"
+
+class Cat(Animal):
+    def sound(self):
+        return "Meow"
+
+def make_sound(animal: Animal):
+    print(animal.sound())
+
+dog = Dog()
+cat = Cat()
+
+make_sound(dog)  # 输出：Woof
+make_sound(cat)  # 输出：Meow
+```
+
+在这个例子中，`make_sound()` 函数不需要知道传入的是 `Dog` 还是 `Cat`，只要对象实现了 `sound()` 方法，函数就可以调用它。这种方式可以让代码更具灵活性和扩展性。
+
+#### 2. Duck Typing（鸭子类型）
+
+Python 中的多态依赖于鸭子类型的概念，即“如果一个对象看起来像鸭子、叫起来像鸭子，那么它就是鸭子”。在 Python 中，对象不需要继承同一个基类或实现接口，只要具有相同的方法名称，就可以在相同的上下文中使用。
+
+```py
+class Bird:
+    def fly(self):
+        print("Bird flies high in the sky")
+
+class Plane:
+    def fly(self):
+        print("Plane flies across the continents")
+
+def take_off(entity):
+    entity.fly()
+
+bird = Bird()
+plane = Plane()
+
+take_off(bird)   # 输出：Bird flies high in the sky
+take_off(plane)  # 输出：Plane flies across the continents
+```
+
+在这个例子中，`take_off()` 函数不关心传入的 `entity` 是 `Bird` 还是 `Plane`，只要 `entity` 实现了 `fly()` 方法，它就可以被传入并使用。这种松散的类型系统使得 Python 多态非常灵活。
+
+#### 3. 抽象基类实现多态
+
+虽然 Python 不强制要求接口和类型检查，但在复杂项目中，使用抽象基类（`abc` 模块）可以定义接口来实现多态。这使得代码更具结构性，且更加规范。
+
+```py
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        return 3.14 * self.radius ** 2
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+def print_area(shape: Shape):
+    print(f"The area is: {shape.area()}")
+
+circle = Circle(5)
+rectangle = Rectangle(4, 6)
+
+print_area(circle)     # 输出：The area is: 78.5
+print_area(rectangle)  # 输出：The area is: 24
+```
+
+在这个例子中，`Shape` 是一个抽象基类，`Circle` 和 `Rectangle` 继承了 `Shape`，并实现了 `area()` 方法。`print_area()` 函数可以处理任何 `Shape` 类型的对象，从而实现了多态。
 
 ### 1.9.2抽象类(接口)
-
-![image-20240528234738079](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240528234738079.png)
 
 **抽象**是将对象的复杂性隐藏起来，仅显示必要的部分。在 Python 中，抽象可以通过定义抽象类和抽象方法来实现。抽象类不能被实例化，必须通过继承来实现其中的抽象方法。
 

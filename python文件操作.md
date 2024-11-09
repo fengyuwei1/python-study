@@ -2,54 +2,113 @@
 
 ## 1.文件的编码
 
-![image-20240530215539787](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530215539787.png)
+### 1.1 编码的重要性
 
-### 1.编码总结
+在文件操作中，文件的编码方式决定了如何将字符转换为二进制数据。例如，常见的编码格式包括 UTF-8、ASCII 和 GBK 等，不同的编码会影响文件的读取和写入结果。
 
-![image-20240530215755922](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530215755922.png)
+### 1.2 常用编码总结
+
+- **UTF-8**：一种兼容 ASCII 的多字节编码，广泛用于跨平台的数据交换。
+- **ASCII**：主要用于英文字符，单字节表示。
+- **GBK**：常用的中文编码，支持更多中文字符。
+- **Unicode**：统一字符集，支持几乎所有语言的字符表示。
+
+不同编码影响字符存储方式，因此选择合适的编码对文件的正确读写至关重要。
 
 ## 2.文件的读写
 
-### 2.1文件操作概述
+### 2.1 文件操作概述
 
-![image-20240530215932870](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530215932870.png)
+文件的读写是数据持久化存储的重要手段。通过打开文件后，用户可以进行读、写、追加等多种操作。文件操作的一般流程包括：
 
-### 2.2文件的打开
+1. 打开文件
+2. 执行操作（读取或写入）
+3. 关闭文件
 
-![image-20240530220206887](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530220206887.png)
+### 2.2 文件的打开
 
-#### 2.2.1mode常用的三种基础访问模式
+#### 2.2.1 `open` 函数的使用
 
-![image-20240530220406056](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530220406056.png)
+`open` 函数用于打开文件，并返回文件对象。其基本语法为：
 
-### 2.3文件的读取
+```python
+file = open(filename, mode)
+```
 
-![image-20240530220820607](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530220820607.png)
+其中，`filename` 是文件的路径，`mode` 是访问模式，如下：
 
-![image-20240530221438330](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530221438330.png)
+#### 2.2.2 mode常用的三种基础访问模式
 
-![image-20240530221618972](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530221618972.png)
+- **读模式 (`r`)**：用于读取文件内容，若文件不存在会报错。
+- **写模式 (`w`)**：用于写入文件，若文件已存在则清空内容。
+- **追加模式 (`a`)**：用于向文件末尾追加内容，不会清空文件。
 
-### 2.4文件的关闭
+可以加上 `b` 表示二进制模式，或者加上 `+` 以表示读写模式（如 `r+`、`w+`）。
 
-![image-20240530222551929](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530222551929.png)
+### 2.3 文件的读取
 
-### 2.5with open 语法
+#### 2.3.1 `read()` 方法
 
-![image-20240530224116342](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530224116342.png)
+`read()` 可以读取整个文件内容。常用参数：
+
+- `file.read(size)`：读取指定字节数的内容，`size` 可省略，表示读取全部内容。
+
+#### 2.3.2 `readline()` 和 `readlines()` 方法
+
+- `readline()`：读取文件的一行。
+- `readlines()`：返回一个包含文件所有行的列表，常用于处理行分隔的数据。
+
+### 2.4 文件的关闭
+
+文件操作完成后，建议使用 `close()` 方法关闭文件，释放系统资源。
+
+```py
+file.close()
+```
+
+### 2.5 `with open` 语法
+
+`with open` 可以自动管理文件的打开和关闭，确保即使程序中途出错，文件也会被正确关闭。
+
+```py
+with open(filename, mode) as file:
+    data = file.read()
+```
 
 ## 3.文件的写入
 
-![image-20240530224453932](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530224453932.png)
+### 3.1 写入数据
 
-### 3.1总结
+可以使用 `write()` 方法将数据写入文件。要确保文件以写模式打开，否则会报错。
 
-![image-20240530234358663](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530234358663.png)
+```py
+file.write("写入内容")
+```
+
+### 3.2 批量写入
+
+使用 `writelines()` 方法可以批量写入多行数据，常用于写入列表。
+
+```py
+file.writelines(["行1\n", "行2\n"])
+```
+
+### 3.3 总结
+
+- 使用 `write()` 写入单行或单个字符串。
+- 使用 `writelines()` 写入多个字符串或多行内容。
 
 ## 4.文件的追加
 
-![image-20240530234450841](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530234450841.png)
+### 4.1 追加数据
 
-### 4.1总结
+使用 `a` 模式打开文件，并调用 `write()` 或 `writelines()` 可以向文件末尾追加内容。
 
-![image-20240530234921388](C:\Users\冯煜炜\AppData\Roaming\Typora\typora-user-images\image-20240530234921388.png)
+```py
+with open(filename, 'a') as file:
+    file.write("追加内容")
+```
+
+### 4.2 总结
+
+追加模式在不覆盖文件内容的情况下扩展文件数据。
